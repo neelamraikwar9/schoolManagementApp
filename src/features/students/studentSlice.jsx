@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const fetchStudents = createAsyncThunk("students/fetchStudents", async () => {
-    const response = await axios.get("");
+    const response = await axios.get("https://school-management-backend-wheat.vercel.app/students");
 
     console.log(response);
 
@@ -10,8 +10,18 @@ export const fetchStudents = createAsyncThunk("students/fetchStudents", async ()
 })
 
 
+export const addStudents = createAsyncThunk("students/addStudents", async (studentData) => {
+    const response = await axios.post("https://school-management-backend-wheat.vercel.app/students", studentData);
+
+    console.log(response); 
+
+    return response.data; 
+})
+
+
+
 export const studentSlice = createSlice({
-    name: "School",
+    name: "students",
     initialState:{
         students: [], 
         status: 'idle',
@@ -20,7 +30,27 @@ export const studentSlice = createSlice({
 
     reducers: {
         
+    }, 
+
+    extraReducers: (builder) => {
+        builder.addCase(fetchStudents.pending, (state) => {
+            state.status = "loading"; 
+        }); 
+
+        builder.addCase(fetchStudents.fulfilled, (state, action) => {
+            console.log(action.payload)
+            state.status = "success"; 
+            state.students = action.payload; 
+        }); 
+
+        builder.addCase(fetchStudents.rejected, (state, action) => {
+            state.status = "error";
+            state.error = action.payload.message; 
+        })
+
     }
 
 
 })
+
+// export default studentSlice; 

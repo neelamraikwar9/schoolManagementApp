@@ -1,23 +1,42 @@
-import { useSelector, useDispatch } from 'react-redux'; 
-import {fetchStudents} from './studentSlice'
-import { useEffect } from 'react';
+import { useSelector, useDispatch } from "react-redux";
+import { fetchStudents } from "./studentSlice";
+import { useEffect } from "react";
+import { Link } from 'react-router-dom'; 
 
+const StudentsView = () => {
+  const dispatch = useDispatch();
 
-const Students = () => {
-    const dispatch = useDispatch();
-    const students = useSelector((state) => {
-        console.log(tasks, "tsks");
+  const studentsState = useSelector((state) => state.students);
+  const { students, status, error } = studentsState;
 
-        return state.students; 
-    });
+  // const { students, status, error } = useSelector((state) => state);
 
-    useEffect(() => {
-        dispatch(fetchStudents())
-    }, []);
+  console.log(students, "fullstudentsstate");
 
-    return (
-        <>
-          <h1>Student List</h1>  
-        </>
-    )
-}
+  useEffect(() => {
+    dispatch(fetchStudents());
+  }, []);
+
+  console.log(students, "studentscheckign");
+
+  return (
+    <>
+    <h1>Student View</h1>
+    <Link to= "/addStudents">Add Student</Link>
+      <h2>Student List</h2>
+      <div>
+        {status === "loading" && <p>Loading...</p>}
+        {error && <p>{error}</p>}
+        {students?.map((student) => (
+          <ul key={student._id}>
+            <li>
+              {student.name}(Age: {student.age})
+            </li>
+          </ul>
+        ))}
+      </div>
+    </>
+  );
+};
+
+export default StudentsView;
