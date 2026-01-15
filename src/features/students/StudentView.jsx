@@ -3,6 +3,7 @@ import { fetchStudents } from "./studentSlice";
 import { useEffect } from "react";
 import { Link } from 'react-router-dom'; 
 
+
 const StudentsView = () => {
   const dispatch = useDispatch();
 
@@ -29,8 +30,9 @@ const StudentsView = () => {
         {error && <p>{error}</p>}
         {students?.map((student) => (
           <ul key={student._id}>
-            <li>
+            <li><Link to={`/studentDetail/${student._id}`}>
               {student.name}(Age: {student.age})
+              </Link>
             </li>
           </ul>
         ))}

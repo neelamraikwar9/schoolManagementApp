@@ -8,22 +8,27 @@ const StudentForm = () => {
   const [age, setAge] = useState("");
   const [grade, setGrade] = useState("");
   const [gender, setGender] = useState("");
+  const [attendance, setAttendance] = useState("");
+  const [marks, setMarks] = useState("");
+
 
   function handleGenderChange(e) {
     const selectedGender = e.target.value;
     setGender(selectedGender);
   }
 
-  console.log(name, age, grade, gender, "data");
+  console.log(name, age, grade, gender, attendance, marks, "data");
 
   const handleAddStudents = (e) => {
     e.preventDefault();
 
-    var studentData = {
+    const studentData = {
         name,
         age: Number(age),
         grade,
-        gender
+        gender,
+        attendance,
+        marks
     };
 
     dispatch(addStudents(studentData));
@@ -33,6 +38,10 @@ const StudentForm = () => {
     setAge("");
     setGrade("");
     setGender("");
+    setAttendance("");
+    setMarks("");
+
+
 
 
 
@@ -97,6 +106,27 @@ const StudentForm = () => {
             onChange={handleGenderChange}
           />
           Female
+        </div>
+        <br />
+
+         <div>
+          <input
+            type="number"
+            placeholder="Attendance"
+            value={attendance}
+            onChange={(e) => setAttendance(e.target.value)}
+          />
+        </div>
+        <br />
+
+
+         <div>
+          <input
+            type="number"
+            placeholder="Marks"
+            value={marks}
+            onChange={(e) => setMarks(e.target.value)}
+          />
         </div>
         <br />
 

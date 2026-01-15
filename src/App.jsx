@@ -14,11 +14,10 @@ function App() {
     <Routes>
       <Route path="/" element=<StudentsView/>></Route>
       <Route path="/addStudents" element=<StudentForm/>></Route>
-      <Route path="/students" element=<StudentForm/>></Route>
-      <Route path="/classes" element=<StudentForm/>></Route>
-      <Route path="/school" element=<StudentForm/>></Route>
+      {/* <Route path="/students" element=<StudentForm/>></Route> */}
+      {/* <Route path="/classes" element=<StudentForm/>></Route> */}
+      {/* <Route path="/school" element=<StudentForm/>></Route> */}
       <Route path="/studentDetail/:id" element=<StudentDetail/>></Route>
-
     </Routes>
    
     </>
