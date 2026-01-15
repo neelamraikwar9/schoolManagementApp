@@ -31,9 +31,15 @@ const StudentDetail = () => {
      <h2>Student Detail</h2>
      <p>Name: {student?.name}</p>
      <p>Age: {student?.age}</p>
+     <p>Gender: {student?.gender}</p>
      <p>Grade: {student?.grade}</p>
      <p>Attendance: {student?.attendance}</p>
      <p>Marks: {student?.marks}</p>
+     <br/>
+     <div>
+      <Link to="/addStudents" state={{student, isEdit: true}}><button style={{backgroundColor: "blue"}}>Edit Details ✏️</button></Link>
+      <button style={{backgroundColor: "red"}}>Delete </button>
+     </div>
     </div>
   )
 }

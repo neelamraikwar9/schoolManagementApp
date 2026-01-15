@@ -1,70 +1,168 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch  } from 'react-redux';
-import { addStudents } from './studentSlice';
+import { addStudents, updateStudent } from './studentSlice';
+import { useNavigate, useLocation } from "react-router-dom";
+
 
 const StudentForm = () => {
   const dispatch = useDispatch();
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [grade, setGrade] = useState("");
-  const [gender, setGender] = useState("");
-  const [attendance, setAttendance] = useState("");
-  const [marks, setMarks] = useState("");
+  const navigate = useNavigate(); 
+  const location = useLocation(); 
+
+  // const [name, setName] = useState("");
+  // const [age, setAge] = useState("");
+  // const [grade, setGrade] = useState("");
+  // const [gender, setGender] = useState("");
+  // const [attendance , setAttendance] = useState("");
+  // const [marks, setMarks] = useState("");
 
 
-  function handleGenderChange(e) {
-    const selectedGender = e.target.value;
-    setGender(selectedGender);
+  // function handleGenderChange(e) {
+  //   const selectedGender = e.target.value;
+  //   setGender(selectedGender);
+  // }
+
+  // console.log(name, age, grade, gender, attendance, marks, "data");
+
+  // const handleAddStudents = (e) => {
+  //   e.preventDefault();
+
+  //   const studentData = {
+  //       name,
+  //       age: Number(age),
+  //       grade,
+  //       gender,
+  //       attendance,
+  //       marks
+  //   };
+
+  //   dispatch(addStudents(studentData));
+  //   window.alert("Student added successfully.");
+    
+  //   setName("");
+  //   setAge("");
+  //   setGrade("");
+  //   setGender("");
+  //   setAttendance("");
+  //   setMarks("");
+  // };
+
+
+  const editingStudent = location.state?.student; 
+  console.log(editingStudent, "edintjijjfkljkle")
+  const isEditMode = location.state?.isEdit;
+
+  const [formData, setFormData] = useState({
+    name: "",
+    age: "",
+    gender: "",
+    grade: "",
+    attendance : "",
+    marks: "",
+  });
+
+
+  const handleChange = (e) => {
+    const {name, value} = e.target; 
+    setFormData(prv => ({...prv, [name]: value}));
   }
 
-  console.log(name, age, grade, gender, attendance, marks, "data");
 
-  const handleAddStudents = (e) => {
-    e.preventDefault();
+  // ✅ Populate form if editing
+    useEffect(() => {
+        if (editingStudent) {
+            setFormData({
+                name: editingStudent.name || "",
+                age: editingStudent.age || "",
+                gender: editingStudent.gender || "",
+                marks: editingStudent.marks || "",
+                attendance : editingStudent.attendance  || "",
+                grade: editingStudent.grade || ""
+            });
+        }
+    }, [editingStudent]);
 
-    const studentData = {
-        name,
-        age: Number(age),
-        grade,
-        gender,
-        attendance,
-        marks
-    };
 
-    dispatch(addStudents(studentData));
-    window.alert("Student added successfully.");
     
-    setName("");
-    setAge("");
-    setGrade("");
-    setGender("");
-    setAttendance("");
-    setMarks("");
+  // function handleGenderChange(e) {
+  //   const selectedGender = e.target.value;
+  //   setGender(selectedGender);
+  // }
 
+  // console.log(name, age, grade, gender, attendance , marks, "data");
 
+  // const handleAddStudents = (e) => {
+  //   e.preventDefault();
 
-
+  //   if(isEditMode && editingStudent){
+  //      dispatch(updateStudent({ id: editingStudent?._id}));
+  //   } else{
 
     // const studentData = {
-    //     name: "",
-    //     age: "",
-    //     grade: "",
-    //     gender: ""
+    //     name,
+    //     age: Number(age),
+    //     grade,
+    //     gender,
+    //     attendance,
+    //     marks
     // };
 
+    //  const setFormData = {
+    //     name,
+    //     age: Number(age),
+    //     grade,
+    //     gender,
+    //     attendance ,
+    //     marks
+    // };
 
-  };
+//     dispatch(addStudents(setFormData));
+//     window.alert("Student added successfully.");
+    
+//     setName("");
+//     setAge("");
+//     setGrade("");
+//     setGender("");
+//     setAttendance("");
+//     setMarks("");
+//   };
+// }
+
+
+const handleSubmit = (e) => {
+  e.preventDefault();
+
+  console.log("submitting", formData); 
+
+  try{
+    if(isEditMode && editingStudent){
+      dispatch(updateStudent({
+        ...formData, id: editingStudent._id
+      }))
+       alert("Student updated successfully!");
+    } else{
+      dispatch(addStudents(formData));
+       alert("Student added successfully!");
+    }
+    navigate("/");
+  } catch(error){
+    console.log("Error", error); 
+    alert("Something went wrong!");
+  }
+}; 
+
 
   return (
     <main>
-      <h1>Add Student</h1>
-      <form>
+      <h1>{ isEditMode ? "Edit Student" : "Add Student" }</h1>
+      <form onSubmit={handleSubmit}>
         <div>
           <input
             type="text"
             placeholder="Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
           />
         </div>
         <br />
@@ -73,8 +171,9 @@ const StudentForm = () => {
           <input
             type="number"
             placeholder="Age"
-            value={age}
-            onChange={(e) => setAge(e.target.value)}
+            name="age"
+            value={formData.age}
+            onChange={handleChange}
           />
         </div>
         <br />
@@ -82,9 +181,10 @@ const StudentForm = () => {
         <div>
           <input
             type="text"
+            name="grade"
             placeholder="Grade"
-            value={grade}
-            onChange={(e) => setGrade(e.target.value)}
+            value={formData.grade}
+            onChange={handleChange}
           />
         </div>
         <br />
@@ -94,16 +194,16 @@ const StudentForm = () => {
             type="radio"
             name="gender"
             value="Male"
-            checked={gender === "Male"}
-            onChange={handleGenderChange}
+            checked={formData.gender === "Male"}
+            onChange={handleChange}
           />
           Male
           <input
             type="radio"
             name="gender"
             value="Female"
-            checked={gender === "Female"}
-            onChange={handleGenderChange}
+            checked={formData.gender === "Female"}
+            onChange={handleChange}
           />
           Female
         </div>
@@ -112,9 +212,10 @@ const StudentForm = () => {
          <div>
           <input
             type="number"
+            name="attendance"
             placeholder="Attendance"
-            value={attendance}
-            onChange={(e) => setAttendance(e.target.value)}
+            value={formData.attendance}
+            onChange={handleChange}
           />
         </div>
         <br />
@@ -123,15 +224,16 @@ const StudentForm = () => {
          <div>
           <input
             type="number"
+            name="marks"
             placeholder="Marks"
-            value={marks}
-            onChange={(e) => setMarks(e.target.value)}
+            value={formData.marks}
+            onChange={handleChange}
           />
         </div>
         <br />
 
         <div>
-          <button onClick={handleAddStudents}>Add</button>
+          <button type="submit">{editingStudent ? "Edit Student" : "Add Student"}</button>
         </div>
       </form>
     </main>

@@ -19,6 +19,14 @@ export const addStudents = createAsyncThunk("students/addStudents", async (stude
 })
 
 
+export const updateStudent = createAsyncThunk("students/updateStudent", async (studentData) => {
+    const res = await axios.put(`https://school-management-backend-wheat.vercel.app/students/${studentData.id}`, studentData); 
+    console.log(res, "res"); 
+
+    return res.data; 
+})
+
+
 
 export const studentSlice = createSlice({
     name: "students",
