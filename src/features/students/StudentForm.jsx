@@ -233,7 +233,7 @@ const handleSubmit = (e) => {
         <br />
 
         <div>
-          <button type="submit">{editingStudent ? "Edit Student" : "Add Student"}</button>
+          <button type="submit">{editingStudent ? "Update Student" : "Add Student"}</button>
         </div>
       </form>
     </main>

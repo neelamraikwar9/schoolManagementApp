@@ -1,8 +1,11 @@
 import { useParams } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+// import { useEffect } from 'react';
+import { deleteStudent } from "./studentSlice";
 
 const StudentDetail = () => {
+    const dispatch = useDispatch(); 
     const { id } = useParams(); 
 
     const studentsState = useSelector((state) => state.students);
@@ -24,6 +27,29 @@ const StudentDetail = () => {
         <Link to="/">Go to Students List</Link>
         </div>
     }
+
+    //  const handleStudentDelete = (studentId) => {
+    //     dispatch(deleteStudent(studentId)); 
+    // }
+
+    // useEffect(() => {
+    // handleStudentDelete(); 
+    // });
+
+    const handleStudentDelete = async () => {
+      if(window.confirm(`Delete ${student.name}?`)){
+        try{
+          await dispatch(deleteStudent(student._id))
+          alert("Student deleted successfully!");
+          window.location.href = "/"
+        } catch(error){
+console.error("Delete failed:", error);
+                alert("Delete failed!");
+        }
+      }
+
+    }
+
   return (
     <div>
      {status === "loading" && <p>Loading....</p>}
@@ -38,49 +64,15 @@ const StudentDetail = () => {
      <br/>
      <div>
       <Link to="/addStudents" state={{student, isEdit: true}}><button style={{backgroundColor: "blue"}}>Edit Details ✏️</button></Link>
-      <button style={{backgroundColor: "red"}}>Delete </button>
+      <Link><button style={{backgroundColor: "red"}} 
+      onClick={handleStudentDelete}
+      >Delete 🗑️</button></Link>
      </div>
     </div>
   )
 }
 
-export default StudentDetail
+export default StudentDetail; 
 
 
 
-
-// import { useParams } from "react-router-dom";
-// import { useSelector } from 'react-redux';
-// import { Link } from 'react-router-dom';
-
-// const StudentDetail = () => {
-//   const { id } = useParams();  // ✅ Match route param: /studentDetail/:id
-
-//   const studentsState = useSelector((state) => state.students);
-//   const { students, status, error } = studentsState;
-
-//   console.log(students, "Students array"); 
-//   const student = students?.find((s) => s._id === id);  // ✅ String match
-//   console.log(student, "Found student");
-
-//   // Loading states
-//   if (status === 'loading') return <div>Loading...</div>;
-//   if (error) return <div>Error: {error}</div>;
-//   if (!student) return (
-//     <div>
-//       Student not found. 
-//       <Link to="/students"> Back to Students</Link>
-//     </div>
-//   );
-
-//   return (
-//     <div>
-//       <h2>{student.name}</h2>
-//       <p><strong>Grade:</strong> {student.grade}</p>
-//       <p><strong>Age:</strong> {student.age}</p>
-//       <Link to="/students">← Back to List</Link>
-//     </div>
-//   );
-// };
-
-// export default StudentDetail;

@@ -26,6 +26,12 @@ export const updateStudent = createAsyncThunk("students/updateStudent", async (s
     return res.data; 
 })
 
+export const deleteStudent = createAsyncThunk("students/deleteStudent", async (studentId) => {
+    const res = await axios.delete(`https://school-management-backend-wheat.vercel.app/students/${studentId}`); 
+    console.log(res, "res"); 
+
+    return studentId; 
+})
 
 
 export const studentSlice = createSlice({
@@ -34,10 +40,13 @@ export const studentSlice = createSlice({
         students: [], 
         status: 'idle',
         error: null,
+        filter: "all",
+        sortBy: "name"
     },
 
     reducers: {
-        
+        setFilter: (state, action) => {state.filter = action.payload},
+        setSortBy: (state, action) => {state.sortBy = action.payload} 
     }, 
 
     extraReducers: (builder) => {
@@ -56,9 +65,24 @@ export const studentSlice = createSlice({
             state.error = action.payload.message; 
         })
 
+
+    builder.addCase(deleteStudent.pending, (state) => {
+        state.status = "loading";
+    })
+    builder.addCase(deleteStudent.fulfilled, (state, action) => {
+        state.status = "success",
+        state.students = state.students.filter((student) => student._id !== action.payload);
+    })
+
+    builder.addCase(deleteStudent.rejected, (state, action) => {
+        state.status = "error"; 
+        state.error = action.error.message; 
+    });
+
     }
 
 
 })
 
-// export default studentSlice; 
+export const { setFilter, setSortBy } = studentSlice.actions; 
+export default studentSlice.reducer; 

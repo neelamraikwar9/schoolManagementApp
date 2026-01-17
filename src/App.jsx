@@ -1,5 +1,6 @@
 
 import './App.css'
+import ClassView from './features/students/ClassView';
 import StudentDetail from './features/students/StudentDetail';
 import StudentForm from './features/students/StudentForm'; 
 import StudentsView from './features/students/StudentView'; 
@@ -14,7 +15,7 @@ function App() {
     <Routes>
       <Route path="/" element=<StudentsView/>></Route>
       <Route path="/addStudents" element=<StudentForm/>></Route>
-      {/* <Route path="/students" element=<StudentForm/>></Route> */}
+      <Route path="/classes" element=<ClassView/>></Route>
       {/* <Route path="/classes" element=<StudentForm/>></Route> */}
       {/* <Route path="/school" element=<StudentForm/>></Route> */}
       <Route path="/studentDetail/:id" element=<StudentDetail/>></Route>
