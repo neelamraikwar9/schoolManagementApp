@@ -122,3 +122,5 @@ export const studentSlice = createSlice({
 export const { setFilter, setSortBy, updateSchoolStats, setTopStudent } =
   studentSlice.actions;
 export default studentSlice.reducer;
+
+
