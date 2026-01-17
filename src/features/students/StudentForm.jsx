@@ -157,6 +157,7 @@ const StudentForm = () => {
             name="name"
             value={formData.name}
             onChange={handleChange}
+            required
           />
         </div>
         <br />
@@ -168,6 +169,7 @@ const StudentForm = () => {
             name="age"
             value={formData.age}
             onChange={handleChange}
+            required
           />
         </div>
         <br />
@@ -179,6 +181,7 @@ const StudentForm = () => {
             placeholder="Grade"
             value={formData.grade}
             onChange={handleChange}
+            required
           />
         </div>
         <br />
@@ -190,6 +193,7 @@ const StudentForm = () => {
             value="Male"
             checked={formData.gender === "Male"}
             onChange={handleChange}
+            required
           />
           Male
           <input
@@ -198,6 +202,7 @@ const StudentForm = () => {
             value="Female"
             checked={formData.gender === "Female"}
             onChange={handleChange}
+            required
           />
           Female
         </div>
@@ -210,6 +215,7 @@ const StudentForm = () => {
             placeholder="Attendance"
             value={formData.attendance}
             onChange={handleChange}
+            required
           />
         </div>
         <br />
@@ -221,6 +227,7 @@ const StudentForm = () => {
             placeholder="Marks"
             value={formData.marks}
             onChange={handleChange}
+            required
           />
         </div>
         <br />
