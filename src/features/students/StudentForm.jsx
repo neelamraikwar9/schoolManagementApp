@@ -1,13 +1,12 @@
 import { useState, useEffect } from "react";
-import { useDispatch  } from 'react-redux';
-import { addStudents, updateStudent } from './studentSlice';
+import { useDispatch } from "react-redux";
+import { addStudents, updateStudent } from "./studentSlice";
 import { useNavigate, useLocation } from "react-router-dom";
-
 
 const StudentForm = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate(); 
-  const location = useLocation(); 
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // const [name, setName] = useState("");
   // const [age, setAge] = useState("");
@@ -15,7 +14,6 @@ const StudentForm = () => {
   // const [gender, setGender] = useState("");
   // const [attendance , setAttendance] = useState("");
   // const [marks, setMarks] = useState("");
-
 
   // function handleGenderChange(e) {
   //   const selectedGender = e.target.value;
@@ -38,7 +36,7 @@ const StudentForm = () => {
 
   //   dispatch(addStudents(studentData));
   //   window.alert("Student added successfully.");
-    
+
   //   setName("");
   //   setAge("");
   //   setGrade("");
@@ -47,9 +45,8 @@ const StudentForm = () => {
   //   setMarks("");
   // };
 
-
-  const editingStudent = location.state?.student; 
-  console.log(editingStudent, "edintjijjfkljkle")
+  const editingStudent = location.state?.student;
+  console.log(editingStudent, "edintjijjfkljkle");
   const isEditMode = location.state?.isEdit;
 
   const [formData, setFormData] = useState({
@@ -57,33 +54,29 @@ const StudentForm = () => {
     age: "",
     gender: "",
     grade: "",
-    attendance : "",
+    attendance: "",
     marks: "",
   });
 
-
   const handleChange = (e) => {
-    const {name, value} = e.target; 
-    setFormData(prv => ({...prv, [name]: value}));
-  }
-
+    const { name, value } = e.target;
+    setFormData((prv) => ({ ...prv, [name]: value }));
+  };
 
   // ✅ Populate form if editing
-    useEffect(() => {
-        if (editingStudent) {
-            setFormData({
-                name: editingStudent.name || "",
-                age: editingStudent.age || "",
-                gender: editingStudent.gender || "",
-                marks: editingStudent.marks || "",
-                attendance : editingStudent.attendance  || "",
-                grade: editingStudent.grade || ""
-            });
-        }
-    }, [editingStudent]);
+  useEffect(() => {
+    if (editingStudent) {
+      setFormData({
+        name: editingStudent.name || "",
+        age: editingStudent.age || "",
+        gender: editingStudent.gender || "",
+        marks: editingStudent.marks || "",
+        attendance: editingStudent.attendance || "",
+        grade: editingStudent.grade || "",
+      });
+    }
+  }, [editingStudent]);
 
-
-    
   // function handleGenderChange(e) {
   //   const selectedGender = e.target.value;
   //   setGender(selectedGender);
@@ -98,63 +91,64 @@ const StudentForm = () => {
   //      dispatch(updateStudent({ id: editingStudent?._id}));
   //   } else{
 
-    // const studentData = {
-    //     name,
-    //     age: Number(age),
-    //     grade,
-    //     gender,
-    //     attendance,
-    //     marks
-    // };
+  // const studentData = {
+  //     name,
+  //     age: Number(age),
+  //     grade,
+  //     gender,
+  //     attendance,
+  //     marks
+  // };
 
-    //  const setFormData = {
-    //     name,
-    //     age: Number(age),
-    //     grade,
-    //     gender,
-    //     attendance ,
-    //     marks
-    // };
+  //  const setFormData = {
+  //     name,
+  //     age: Number(age),
+  //     grade,
+  //     gender,
+  //     attendance ,
+  //     marks
+  // };
 
-//     dispatch(addStudents(setFormData));
-//     window.alert("Student added successfully.");
-    
-//     setName("");
-//     setAge("");
-//     setGrade("");
-//     setGender("");
-//     setAttendance("");
-//     setMarks("");
-//   };
-// }
+  //     dispatch(addStudents(setFormData));
+  //     window.alert("Student added successfully.");
 
+  //     setName("");
+  //     setAge("");
+  //     setGrade("");
+  //     setGender("");
+  //     setAttendance("");
+  //     setMarks("");
+  //   };
+  // }
 
-const handleSubmit = (e) => {
-  e.preventDefault();
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  console.log("submitting", formData); 
+    console.log("submitting", formData);
 
-  try{
-    if(isEditMode && editingStudent){
-      dispatch(updateStudent({
-        ...formData, id: editingStudent._id
-      }))
-       alert("Student updated successfully!");
-    } else{
-      dispatch(addStudents(formData));
-       alert("Student added successfully!");
+    try {
+      if (isEditMode && editingStudent) {
+        dispatch(
+          updateStudent({
+            ...formData,
+            id: editingStudent._id,
+          })
+        );
+        alert("Student updated successfully!");
+      } else {
+        dispatch(addStudents(formData));
+        alert("Student added successfully!");
+      }
+      navigate("/");
+    } catch (error) {
+      console.log("Error", error);
+      alert("Something went wrong!");
     }
-    navigate("/");
-  } catch(error){
-    console.log("Error", error); 
-    alert("Something went wrong!");
-  }
-}; 
-
+  };
 
   return (
     <main>
-      <h1>{ isEditMode ? "Edit Student" : "Add Student" }</h1>
+      <h1>{isEditMode ? "Edit Student" : "Add Student"}</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <input
@@ -209,7 +203,7 @@ const handleSubmit = (e) => {
         </div>
         <br />
 
-         <div>
+        <div>
           <input
             type="number"
             name="attendance"
@@ -220,8 +214,7 @@ const handleSubmit = (e) => {
         </div>
         <br />
 
-
-         <div>
+        <div>
           <input
             type="number"
             name="marks"
@@ -233,7 +226,9 @@ const handleSubmit = (e) => {
         <br />
 
         <div>
-          <button type="submit">{editingStudent ? "Update Student" : "Add Student"}</button>
+          <button type="submit">
+            {editingStudent ? "Update Student" : "Add Student"}
+          </button>
         </div>
       </form>
     </main>
