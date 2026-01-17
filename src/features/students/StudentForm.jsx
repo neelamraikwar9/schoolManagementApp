@@ -132,7 +132,7 @@ const StudentForm = () => {
           updateStudent({
             ...formData,
             id: editingStudent._id,
-          })
+          }),
         );
         alert("Student updated successfully!");
       } else {
@@ -243,3 +243,5 @@ const StudentForm = () => {
 };
 
 export default StudentForm;
+
+
