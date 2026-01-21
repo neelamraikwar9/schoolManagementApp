@@ -1,54 +1,69 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"; 
-import axios from 'axios'; 
+
+  import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+  import axios from "axios";
 
 
-export const addTeacher = createAsyncThunk("teacher/addTeachers", async(teacherData) => {
-    const response = await axios.post("https://school-management-backend-wheat.vercel.app/teachers", teacherData); 
+  export const addTeacher = createAsyncThunk(
+    "teachers/addTeachers",
+    async (teacherData) => {
+      const response = await axios.post(
+        "https://school-management-backend-wheat.vercel.app/teachers",
+        teacherData,
+      );
 
-    console.log(response); 
+      console.log(response);
 
-    return response.data; 
+      return response.data;
+    },
+  );
 
-}); 
+  export const fetchTeachers = createAsyncThunk(
+    "teachers/fetchTeachers",
+    async () => {
+      const response = await axios.get(
+        "https://school-management-backend-wheat.vercel.app/teachers",
+      );
 
-export const fetchTeachers = createAsyncThunk("teachers/fetchTeachers", async() => {
-    const response = await axios.get("https://school-management-backend-wheat.vercel.app/teachers"); 
+      console.log(response.data, "response");
 
-    console.log(response, "response");
+      return response.data;
+    },
+  );
 
-    return response.data; 
+  export const updateTeacher = createAsyncThunk("teachers/updateTeacher", async (teacherData) => {
+    const res = await axios.put(`https://school-management-backend-wheat.vercel.app/teachers/${teacherData.id}`, teacherData); 
+    console.log(res, "res"); 
 
-});
+    return res.data; 
+  }); 
 
-export const teacherSlice = createSlice({
-    name:"teachers", 
+
+  
+
+  export const teacherSlice = createSlice({
+    name: "teachers",
     initialState: {
-        teachers: [],
-        status: 'idle', 
-        error: null
+      teachers: [],
+      status: "idle",
+      error: null,
     },
 
-    reducers: {}, 
+    reducers: {},
 
     extraReducers: (builder) => {
-        builder.addCase(fetchTeachers.pending, (state) => {
-            state.status = "loading";
-        }); 
+      builder.addCase(fetchTeachers.pending, (state) => {
+        state.status = "loading";
+      });
 
-        builder.addCase(fetchTeachers.fulfilled, (state, action) => {
-            console.log(action.payload); 
-            state.status = "success"; 
-            state.teachers = action.payload; 
-        }); 
+      builder.addCase(fetchTeachers.fulfilled, (state, action) => {
+        console.log(action.payload);
+        state.status = "success";
+        state.teachers = action.payload;
+      });
 
-        builder.addCase(fetchTeachers.rejected, (state, action) => {
-            state.status = "error"; 
-            state.error = action.payload.message;     
-        }); 
-    }
-
-
-
-
-
-})
+      builder.addCase(fetchTeachers.rejected, (state, action) => {
+        state.status = "error";
+        state.error = action.payload.message;
+      });
+    },
+  });

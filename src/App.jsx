@@ -9,6 +9,7 @@ import StudentsView from './features/students/StudentView';
 
 import TeacherForm from './features/teachers/TeacherForm'; 
 import TeacherView from './features/teachers/TeacherView';
+import TeacherDetail from './features/teachers/TeacherDetail';
 
 
 
@@ -27,6 +28,8 @@ function App() {
 
       <Route path="/addTeachers" element=<TeacherForm/>></Route>
       <Route path="/teachersView" element=<TeacherView/>></Route>
+      <Route path="/teacherDetail/:id" element=<TeacherDetail/>></Route>
+
 
     </Routes>
    

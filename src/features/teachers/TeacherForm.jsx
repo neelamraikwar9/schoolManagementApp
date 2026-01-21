@@ -1,16 +1,16 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { addTeacher } from "./TeacherSlice";
-// import { useNavigate, useLocation } from "react-router-dom";
+import { addTeacher, updateTeacher } from "./TeacherSlice";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const TeacherForm = () => {
   const dispatch = useDispatch();
-//   const navigate = useNavigate();
-//   const location = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-//   const editingStudent = location.state?.student;
-//   console.log(editingStudent, "edintjijjfkljkle");
-//   const isEditMode = location.state?.isEdit;
+  const editingTeacher = location.state?.teacher;
+  console.log(editingTeacher, "edintjijjfkljkle");
+  const isEditMode = location.state?.isEdit;
 
   const [formData, setFormData] = useState({
     name: "",
@@ -31,70 +31,83 @@ const TeacherForm = () => {
   };
 
 
-  const handleSubmit = (e) => {
-    e.preventDefault(); 
+  useEffect(() => {
+    if(editingTeacher){
+      setFormData({
+        name: editingTeacher.name || "" ,
+        email: editingTeacher.email || "", 
+        phone: editingTeacher.phone || "",
+        age: editingTeacher.age || "",
+        gender: editingTeacher.gender || "",
+        subject: editingTeacher.subject || "",
+        experience: editingTeacher.experience || "",
+        status: editingTeacher.status || ""
+      });
+    }
+  }, [editingTeacher]);
 
-    dispatch(addTeacher(formData));
 
-    window.alert("Teacher added successfully.")
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+    
+  //   console.log("submitting formData", formData); 
+  //   try{
+  //   if(isEditMode && editingTeacher){
+  //     dispatch(updateTeacher({...formData, id: editingTeacher._id})); 
+  //   }
+  //   alert("Teacher updated successfully!")
+  //   else{
+  //     dispatch(addTeacher(formData)); 
+  //      alert("Teacher added successfully!");
+  //   }
 
-    setFormData ({
-    name: "",
-    email: "",
-    phone: "",
-    age: "",
-    gender: "",
-    subject: "",
-    experience: "",
-    status: "",
-  });
 
+  //   setFormData ({
+  //   name: "",
+  //   email: "",
+  //   phone: "",
+  //   age: "",
+  //   gender: "",
+  //   subject: "",
+  //   experience: "",
+  //   status: "",
+  // });
+
+  // } catch(error){
+
+  // }
+
+
+const handleSubmit = (e) => {
+  e.preventDefault(); 
+
+  console.log("Submitting Form", formData);
+
+  try{
+    if(isEditMode && editingTeacher){
+      dispatch(updateTeacher({...formData, id: editingTeacher._id,})),
+      alert("Teacher updated successfully!");
+    } else {
+      dispatch(addTeacher(formData));
+      alert("Teacher added successfully!");
+    }
+    navigate("/teachersView")
+  } catch(error){
+     console.log("Error", error);
+      alert("Something went wrong!");
   }
 
-  // ✅ Populate form if editing
-//   useEffect(() => {
-//     if (editingStudent) {
-//       setFormData({
-//         name: editingStudent.name || "",
-//         age: editingStudent.age || "",
-//         gender: editingStudent.gender || "",
-//         marks: editingStudent.marks || "",
-//         attendance: editingStudent.attendance || "",
-//         grade: editingStudent.grade || "",
-//       });
-//     }
-//   }, [editingStudent]);
+}
 
 
 
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
 
-//     console.log("submitting", formData);
 
-//     try {
-//       if (isEditMode && editingStudent) {
-//         dispatch(
-//           updateStudent({
-//             ...formData,
-//             id: editingStudent._id,
-//           }),
-//         );
-//         alert("Student updated successfully!");
-//       } else {
-//         dispatch(addStudents(formData));
-//         alert("Student added successfully!");
-//       }
-//       navigate("/");
-//     } catch (error) {
-//       console.log("Error", error);
-//       alert("Something went wrong!");
-//     }
-//   };
+    
 
   return (
     <main>
-      {/* <h1>{isEditMode ? "Edit Student" : "Add Student"}</h1> */}
+      <h1>{isEditMode ? "Edit Teacher" : "Add Teacher"}</h1>
       <form 
       onSubmit={handleSubmit}
       >
@@ -210,8 +223,8 @@ const TeacherForm = () => {
         <br />
 
         <div>
-          <button type="submit">Add Teacher
-            {/* {editingStudent ? "Update Student" : "Add Student"} */}
+          <button type="submit">
+            {editingTeacher ? "Update Teacher" : "Add Teacher"}
           </button>
         </div>
       </form>
