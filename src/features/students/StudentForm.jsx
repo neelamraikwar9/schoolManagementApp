@@ -8,43 +8,6 @@ const StudentForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // const [name, setName] = useState("");
-  // const [age, setAge] = useState("");
-  // const [grade, setGrade] = useState("");
-  // const [gender, setGender] = useState("");
-  // const [attendance , setAttendance] = useState("");
-  // const [marks, setMarks] = useState("");
-
-  // function handleGenderChange(e) {
-  //   const selectedGender = e.target.value;
-  //   setGender(selectedGender);
-  // }
-
-  // console.log(name, age, grade, gender, attendance, marks, "data");
-
-  // const handleAddStudents = (e) => {
-  //   e.preventDefault();
-
-  //   const studentData = {
-  //       name,
-  //       age: Number(age),
-  //       grade,
-  //       gender,
-  //       attendance,
-  //       marks
-  //   };
-
-  //   dispatch(addStudents(studentData));
-  //   window.alert("Student added successfully.");
-
-  //   setName("");
-  //   setAge("");
-  //   setGrade("");
-  //   setGender("");
-  //   setAttendance("");
-  //   setMarks("");
-  // };
-
   const editingStudent = location.state?.student;
   console.log(editingStudent, "edintjijjfkljkle");
   const isEditMode = location.state?.isEdit;
@@ -76,50 +39,6 @@ const StudentForm = () => {
       });
     }
   }, [editingStudent]);
-
-  // function handleGenderChange(e) {
-  //   const selectedGender = e.target.value;
-  //   setGender(selectedGender);
-  // }
-
-  // console.log(name, age, grade, gender, attendance , marks, "data");
-
-  // const handleAddStudents = (e) => {
-  //   e.preventDefault();
-
-  //   if(isEditMode && editingStudent){
-  //      dispatch(updateStudent({ id: editingStudent?._id}));
-  //   } else{
-
-  // const studentData = {
-  //     name,
-  //     age: Number(age),
-  //     grade,
-  //     gender,
-  //     attendance,
-  //     marks
-  // };
-
-  //  const setFormData = {
-  //     name,
-  //     age: Number(age),
-  //     grade,
-  //     gender,
-  //     attendance ,
-  //     marks
-  // };
-
-  //     dispatch(addStudents(setFormData));
-  //     window.alert("Student added successfully.");
-
-  //     setName("");
-  //     setAge("");
-  //     setGrade("");
-  //     setGender("");
-  //     setAttendance("");
-  //     setMarks("");
-  //   };
-  // }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -243,5 +162,3 @@ const StudentForm = () => {
 };
 
 export default StudentForm;
-
-

@@ -12,6 +12,11 @@ const Navbar = () => {
           <li className="listItem pdgTop">
             <Link to="/">Students</Link>
           </li>
+
+          <li className="listItem pdgTop">
+            <Link to="/teachersView">Teachers</Link>
+          </li>
+
           <li className="listItem pdgTop">
             <Link to="/classView">Classes</Link>
           </li>
