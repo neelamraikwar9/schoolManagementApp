@@ -38,6 +38,14 @@
   }); 
 
 
+  export const deleteTeacher = createAsyncThunk("teachers/deleteTeacher", async (teacherId) => {
+    const res = await axios.delete(`https://school-management-backend-wheat.vercel.app/teachers/${teacherId}`); 
+    console.log(res, "res"); 
+   
+    return teacherId; 
+  })
+
+
   
 
   export const teacherSlice = createSlice({
@@ -65,5 +73,22 @@
         state.status = "error";
         state.error = action.payload.message;
       });
+
+
+      builder.addCase(deleteTeacher.pending, (state) => {
+        state.status = "loading";
+      }); 
+
+      builder.addCase(deleteTeacher.fulfilled, (state, action) => {
+        state.status = "success"
+        state.teachers = state.teachers.filter((teacher) => teacher._id !== action.payload); 
+      }); 
+
+      builder.addCase(deleteTeacher.rejected, (state, action) => {
+        state.status = "error",
+        state.error = action.error.message; 
+      })
     },
   });
+
+  

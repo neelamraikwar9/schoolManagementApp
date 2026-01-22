@@ -59,14 +59,7 @@ const SchoolView = () => {
     dispatch(setTopStudent(topStudent));
   }, [students, dispatch]);
 
-  // useEffect(() => {
-  //     setTotalStudents(students?.length);
-  //     setAverageAttendence(students.attendance/totalStudents);
-  //     setAverageMarks(students.marks/totalStudents);
-  //     console.log(averageAttendence, "averageAfttendec");
-  //     setTopStudent(students.find(ts) => ts.marks > )
-  // }, [students])
-
+ 
   return (
     <div>
       <h1>School View</h1>

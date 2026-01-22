@@ -1,5 +1,6 @@
 import { useParams, Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { deleteTeacher } from "./TeacherSlice";
 
 const TeacherDetail = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,19 @@ const TeacherDetail = () => {
     );
   }
 
+  const handleTeacherDelete =  () => {
+    if(window.confirm(`Delete ${teacher.name}?`)){
+      try{
+        dispatch(deleteTeacher(teacher._id)); 
+        alert("Teacher deleted successfully."); 
+        window.location.href = "/teachersView"; 
+      } catch(error){
+        console.error("Delete failed", error);
+        alert("Delete failed!"); 
+      }
+    }
+  };
+
   return (
     <div>
       {status == "loading" && <p>Loading... </p>}
@@ -38,8 +52,7 @@ const TeacherDetail = () => {
       <p>Status: {teacher?.status}</p>
       <div>
       <Link to="/addTeachers" state={{teacher, isEdit: true}}><button  style={{ backgroundColor: "blue" }}>Edit Details</button></Link>
-        
-        {/* <button onClick={}>Delete</button> */}
+      <button onClick={handleTeacherDelete}>Delete</button>
       </div>
     </div>
     
