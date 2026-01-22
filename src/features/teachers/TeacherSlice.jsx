@@ -54,9 +54,17 @@
       teachers: [],
       status: "idle",
       error: null,
+      schoolStats: {
+        totalTeacher: 0, 
+        averageTeacherAge: 0
+      }
     },
 
-    reducers: {},
+    reducers: {
+      updateSchoolStats: (state, action) => {
+        state.schoolStats = action.payload;
+      }
+    },
 
     extraReducers: (builder) => {
       builder.addCase(fetchTeachers.pending, (state) => {
